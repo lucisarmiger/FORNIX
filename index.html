@@ -251,7 +251,7 @@ footer{
     <a href="#" class="logo-link" onclick="showArticle('home')">
     <span class="logo">⟁</span>
 </a>
-</a>
+
 
     <div class="title">
         <strong>F.O.R.N.I.X</strong>
@@ -277,6 +277,7 @@ footer{
     <a href="#" onclick="showArticle('magitek')">Magitek</a>
     <a href="#" onclick="showArticle('entities')">Entities</a>
     <a href="#" onclick="showArticle('character')">Character Profile</a>
+      
 
     <h3>Research</h3>
 
@@ -417,13 +418,14 @@ footer{
             See also:
             <a href="#" onclick="showArticle('history')">Historical Incidents</a>.
             <a href="#" onclick="showArticle('character')">Character Profile</a>,
-            
-            
-        </p>
+             <p> <a href="#" onclick="showArticle('Translate')">Translate</a> </p>
+            <p> <a href="#" onclick="showArticle('A17 Shop')">A17</a> </p>
+            <p> <a href="#" onclick="showArticle('Test')">Test</a> </p>
         
         
         <p>
           A: </p>
+            <p> <a href="#" onclick="showArticle('Amber')">Amber Moon</a> </p>
         <p>  B: </p>
          <p>  E:  </p>
          <p>  <a href="#" onclick="showArticle('Ephraim')">Ephraïm</a>  </p>
@@ -432,7 +434,7 @@ footer{
          <p> <a href="#" onclick="showArticle('Flynn')">Flynn</a> </p>
          <p> M: </p>
          <p> <a href="#" onclick="showArticle('Malrik Voskin')">Malrik Voskin</a>
-          
+           <p> <a href="#" onclick="showArticle('Journal')">Journal</a>
         </p>
 
     </div>
@@ -508,7 +510,1674 @@ footer{
     </div>
 
 </section>
+
+<!----TEST----------------------------------------------------------------------------------->
+
+<section id="Secret" class="article">
+
+?
+</section>
+
+<!----TEST---------------------->
+
+
+<section id="Core" class="article">
+
+<div id="core-terminal">
+
+<style>
+#core-terminal{
+    background:#000;
+    color:#fff;
+    font-family: "Courier New", monospace;
+    padding:20px;
+    height:600px;
+    border:1px solid #fff;
+    display:flex;
+    flex-direction:column;
+}
+
+#core-header{
+    font-size:12px;
+    opacity:0.7;
+    border-bottom:1px solid #fff;
+    padding-bottom:10px;
+    margin-bottom:10px;
+}
+
+#core-log{
+    flex:1;
+    overflow-y:auto;
+    padding-right:10px;
+    font-size:13px;
+    line-height:1.4;
+    white-space:pre-wrap;
+}
+
+#core-input-row{
+    display:flex;
+    border-top:1px solid #fff;
+    padding-top:10px;
+    margin-top:10px;
+}
+
+#core-input{
+    flex:1;
+    background:#000;
+    color:#fff;
+    border:none;
+    outline:none;
+    font-family:inherit;
+    font-size:13px;
+}
+
+.cmd{ color:#fff; }
+.sys{ color:#bbb; }
+.err{ color:#ff4d4d; }
+.xdn{color:#b267eb; }}
+</style>
+
+<div id="core-header">
+    CORE TERMINAL // LINK ESTABLISHED // ENTITY: VOSKIN CORE // STATUS: ONLINE
+</div>
+
+<div id="core-log"></div>
+
+<div id="core-input-row">
+    <span>> </span>
+    <input id="core-input" placeholder="Enter command..." />
+</div>
+
+</div>
+
+<script>
+const log = document.getElementById("core-log");
+const input = document.getElementById("core-input");
+
+
+/*---color---/
+
+
+
+/* -------------------------------
+   TYPE ONE LINE AT A TIME ENGINE
+--------------------------------*/
+function typeLine(text, element, speed = 15, callback){
+    let i = 0;
+
+    function step(){
+        if(i < text.length){
+            element.innerHTML += text[i];
+            i++;
+            setTimeout(step, speed);
+        } else {
+            if(callback) callback();
+        }
+    }
+
+    step();
+}
+
+
+/*--- color text----*/
+
+
+/* -------------------------------
+   QUEUE SYSTEM (IMPORTANT PART)
+   forces line-by-line execution
+--------------------------------*/
+let queue = [];
+let isTyping = false;
+
+function writeLine(text, cls="sys"){
+    queue.push({ text, cls });
+    runQueue();
+}
+
+function runQueue(){
+    if(isTyping) return;
+    if(queue.length === 0) return;
+
+    isTyping = true;
+
+    const { text, cls } = queue.shift();
+
+    const div = document.createElement("div");
+    div.className = cls;
+    log.appendChild(div);
+
+    typeLine(text, div, 12, () => {
+        isTyping = false;
+        log.scrollTop = log.scrollHeight;
+        runQueue(); // next line ONLY after completion
+    });
+}
+
+/* -------------------------------
+   BOOT SEQUENCE
+--------------------------------*/
+writeLine("Connecting to Core...", "sys");
+writeLine("Link stable. Encryption: FORNIX-VER-9", "sys");
+writeLine("Welcome, authorized operator.", "sys");
+writeLine("Type /help for available commands.", "sys");
+
+/* -------------------------------
+   COMMAND SYSTEM
+--------------------------------*/
+function processCommand(cmd){
+
+    writeLine("> " + cmd, "cmd");
+
+    cmd = cmd.toLowerCase().trim();
+
+    if(cmd === "/help"){
+        writeLine("Available commands:", "sys");
+        writeLine("/data — Core energy diagnostics", "sys");
+        writeLine("/status — System integrity report", "sys");
+        writeLine("/echo [text] — Core repeats input", "sys");
+        return;
+    }
+
+    if(cmd === "/data"){
+        const joules = (Math.random() * 9e12 + 1e12).toFixed(2);
+        const flux = (Math.random() * 100).toFixed(3);
+        const stability = (Math.random() * 15 + 85).toFixed(2);
+
+        writeLine("V.O.T CORE ENERGY REPORT:", "sys");
+        writeLine("Quantum Reactor Output: " + joules + " J", "sys");
+        writeLine("Arcane Flux Density: " + flux + " μV/m²", "sys");
+        writeLine("Stability Index: " + stability + "%", "sys");
+        writeLine("Note: Minor disturbance detected in cathedral spires.", "sys");
+        return;
+    }
+
+    if(cmd === "/status"){
+        writeLine("SYSTEM STATUS REPORT:", "sys");
+        writeLine("Core: ONLINE", "sys");
+        writeLine("Sentinel Network: ACTIVE", "sys");
+        writeLine("Soul Lattice: STABLE", "sys");
+        writeLine("Containment: SEALED", "sys");
+        return;
+    }
+
+    if(cmd === "/xaden"){
+        writeLine("Hello,",  "sys");
+        writeLine("Xaden", "xdn");
+        writeLine("How can I help?", "sys");
+        return;
+    }
+
+    if(cmd.startsWith("/echo ")){
+        writeLine(cmd.replace("/echo ", ""), "sys");
+        return;
+    }
+   if (cmd === "/secret") {
+    writeLine("Accessing restricted node...", "sys");
+
+    setTimeout(() => {
+        writeLine("Access granted", "xdn");
+    }, 400);
+
+    setTimeout(() => {
+        showArticle("Secret");
+    }, 1200);
+
+    return;
+}
+    writeLine("Command unknown, try another prompt.", "err");
+}
+
+/* -------------------------------
+   INPUT HANDLER
+--------------------------------*/
+input.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+        processCommand(input.value);
+        input.value = "";
+    }
+});
+</script>
+
+</section>
+
+
+<!---A17 Mart------------------------------------------------------------------------------->
+
+
+<section id="A17 Shop" class="article">
+
+<style>
+
+#A17Shop{
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+    padding:30px;
+    color:white;
+    font-family:Inter,sans-serif;
+}
+
+/* ======================
+   SHOP DESCRIPTION
+====================== */
+
+#a17Description{
+
+    background:
+    rgba(255,255,255,.05);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:28px;
+
+    padding:35px;
+
+    margin-bottom:30px;
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.25);
+}
+
+#a17Description h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+#a17Description h3{
+    opacity:.8;
+    margin-bottom:20px;
+}
+
+#a17Description p{
+    line-height:1.8;
+    opacity:.9;
+    margin-bottom:15px;
+}
+
+/* ======================
+   PRODUCT GRID
+====================== */
+
+#a17Products{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(260px,1fr));
+
+    gap:25px;
+}
+
+/* ======================
+   ITEM CARD
+====================== */
+
+.a17Item{
+
+    background:
+    rgba(255,255,255,.04);
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    border:
+    1px solid rgba(255,255,255,.06);
+
+    transition:.25s;
+
+    backdrop-filter:blur(10px);
+}
+
+.a17Item:hover{
+
+    transform:
+    translateY(-6px);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.35);
+}
+
+/* ======================
+   IMAGE PLACEHOLDER
+====================== */
+
+.a17Image{
+
+    height:220px;
+
+    background:
+    linear-gradient(
+    135deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.02)
+    );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:14px;
+
+    letter-spacing:2px;
+
+    opacity:.7;
+}
+
+/* ======================
+   CONTENT
+====================== */
+
+.a17Info{
+    padding:18px;
+}
+
+.a17Name{
+    font-size:20px;
+    margin-bottom:6px;
+}
+
+.a17Price{
+
+    color:#CD95F0;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+}
+
+.a17Text{
+
+    opacity:.8;
+
+    line-height:1.5;
+    font-size:14px;
+}
+
+</style>
+
+<div id="A17Shop">
+
+    <div id="a17Description">
+
+        <h1>A17 Mart</h1>
+
+        <h3>
+            Owner: Allison Ordway<br>
+            Store Hours: 8 PM – 3 AM<br>
+            Noxus's Murkwater District
+        </h3>
+
+        <p>
+            Welcome one and all to A17 Mart.
+        </p>
+
+        <p>
+            Shelves are packed tightly with snacks, canned foods,
+            batteries, cigarettes, magitek supplies and countless
+            strange products no one remembers purchasing.
+        </p>
+
+        <p>
+            The true attraction lies in the novelty consumables.
+            Through unusual methods, customers may safely consume
+            edible recreations of materials that should never be
+            edible at all.
+        </p>
+
+        <p>
+            Crystal. Glass. Marble. Chalk. Metal. Bone. Teeth.
+            Paper. Wax. Gemstones.
+        </p>
+
+        <p>
+            Every product recreates the texture, sound,
+            resistance and sensation people imagine those
+            materials would possess.
+       
+
+    </div>
+
+    <div id="a17Products">
+
+        <!-- ITEM 1 -->
+        <div class="a17Item">
+            <div class="a17Image">ITEM IMAGE</div>
+            <div class="a17Info">
+                <div class="a17Name">Edible Glass Shards</div>
+                <div class="a17Price">14 Gold</div>
+                <div class="a17Text">
+                    Crystal-clear candy fragments that crack and
+                    shatter like real glass.
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 2 -->
+        <div class="a17Item">
+            <div class="a17Image">ITEM IMAGE</div>
+            <div class="a17Info">
+                <div class="a17Name">Marble Chews</div>
+                <div class="a17Price">11 Copper</div>
+                <div class="a17Text">
+                    Smooth stone texture with a surprisingly
+                    sweet center.
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 3 -->
+        <div class="a17Item">
+            <div class="a17Image">ITEM IMAGE</div>
+            <div class="a17Info">
+                <div class="a17Name">Wax Cubes</div>
+                <div class="a17Price">9 Silver</div>
+                <div class="a17Text">
+                    Dense chewable blocks that mimic candle wax.
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 4 -->
+        <div class="a17Item">
+            <div class="a17Image">ITEM IMAGE</div>
+            <div class="a17Info">
+                <div class="a17Name">Crystal Crunch</div>
+                <div class="a17Price">22 Copper</div>
+                <div class="a17Text">
+                    Simulates biting directly into gemstones.
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 5 -->
+        <div class="a17Item">
+            <div class="a17Image">ITEM IMAGE</div>
+            <div class="a17Info">
+                <div class="a17Name">Paper Strips</div>
+                <div class="a17Price">6 Copper</div>
+                <div class="a17Text">
+                    Dry paper texture recreated perfectly.
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 6 -->
+        <div class="a17Item">
+            <div class="a17Image">ITEM IMAGE</div>
+            <div class="a17Info">
+                <div class="a17Name">Edible Nails</div>
+                <div class="a17Price">18 Copper</div>
+                <div class="a17Text">
+                    Metallic crunch without actual metal.
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEMS 7–20 -->
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Bone Crackers</div><div class="a17Price">15 Copper</div><div class="a17Text">Crunches exactly like dry bone.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Tooth Gummies</div><div class="a17Price">12 Copper</div><div class="a17Text">Disturbingly realistic molars.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Clay Bites</div><div class="a17Price">8 Copper</div><div class="a17Text">Packed-earth texture recreation.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Wood Chips</div><div class="a17Price">10 Copper</div><div class="a17Text">Splinter-free edible lumber.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Brick Nuggets</div><div class="a17Price">13 Copper</div><div class="a17Text">Crunchy masonry simulation.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Obsidian Candy</div><div class="a17Price">25 Copper</div><div class="a17Text">Volcanic glass with rich sweetness.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Gold Flakes</div><div class="a17Price">40 Copper</div><div class="a17Text">Edible precious metal experience.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Chalk Sticks</div><div class="a17Price">7 Copper</div><div class="a17Text">Powdery classroom nostalgia.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Eyeball Pops</div><div class="a17Price">16 Copper</div><div class="a17Text">Realistic texture and squish.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Battery Candy</div><div class="a17Price">19 Copper</div><div class="a17Text">Metallic tang included.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Coin Wafers</div><div class="a17Price">11 Copper</div><div class="a17Text">Chewing money without consequences.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Porcelain Bites</div><div class="a17Price">14 Copper</div><div class="a17Text">Delicate ceramic crunch.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Mirror Shards</div><div class="a17Price">20 Copper</div><div class="a17Text">Reflective edible glass.</div></div></div>
+
+        <div class="a17Item"><div class="a17Image">ITEM IMAGE</div><div class="a17Info"><div class="a17Name">Steel Cubes</div><div class="a17Price">21 Copper</div><div class="a17Text">Dense metallic chewing experience.</div></div></div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+
+
+
+
+<!--- Feinic Translate-->
+
+<section id="Translate" class="article">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+#feinic-translator{
+    font-family:'Inter',sans-serif;
+    width:100%;
+    padding:20px;
+    color:white;
+}
+
+#feinic-card{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    padding:25px;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.35);
+}
+
+#feinic-title{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+#feinic-title h1{
+    font-size:32px;
+    font-weight:600;
+}
+
+#feinic-title p{
+    opacity:.7;
+}
+
+#feinic-panels{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:20px;
+}
+
+.feinic-panel{
+    background:rgba(255,255,255,.03);
+    border-radius:16px;
+    padding:15px;
+}
+
+.feinic-panel h3{
+    margin-bottom:10px;
+    font-size:15px;
+    opacity:.75;
+}
+
+.feinic-panel textarea{
+    width:100%;
+    height:300px;
+
+    resize:none;
+
+    background:none;
+    border:none;
+    outline:none;
+
+    color:white;
+
+    font-size:17px;
+    line-height:1.6;
+}
+
+#feinic-swap{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#feinic-swap button{
+    width:55px;
+    height:55px;
+
+    border:none;
+    border-radius:50%;
+
+    cursor:pointer;
+
+    font-size:22px;
+}
+
+#feinic-controls{
+    text-align:center;
+    margin-top:20px;
+}
+
+#feinic-controls button{
+    padding:14px 26px;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+@media(max-width:900px){
+
+    #feinic-panels{
+        grid-template-columns:1fr;
+    }
+
+    #feinic-swap{
+        margin:10px 0;
+    }
+
+}
+
+</style>
+
+<div id="feinic-translator">
+
+    <div id="feinic-card">
+
+        <div id="feinic-title">
+            <h1>Feinic Translator</h1>
+            <p>English ↔ Feinic</p>
+        </div>
+
+        <div id="feinic-panels">
+
+            <div class="feinic-panel">
+                <h3 id="feinic-leftLabel">
+                    English
+                </h3>
+
+                <textarea
+                    id="feinic-input"
+                    placeholder="Type text..."
+                ></textarea>
+            </div>
+
+            <div id="feinic-swap">
+                <button onclick="feinicSwap()">
+                    ⇄
+                </button>
+            </div>
+
+            <div class="feinic-panel">
+                <h3 id="feinic-rightLabel">
+                    Feinic
+                </h3>
+
+                <textarea
+                    id="feinic-output"
+                    readonly
+                ></textarea>
+            </div>
+
+        </div>
+
+        <div id="feinic-controls">
+            <button onclick="feinicTranslate()">
+                Translate
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ===========================
+   DICTIONARY
+=========================== */
+
+const feinicDictionary = {
+
+"?":", ra.",
+
+"i":"vi",
+"me":"vin",
+"my":"vir",
+
+"you":"sha",
+"your":"shar",
+
+"he":"sa",
+"she":"sa",
+
+"we":"vai",
+"us":"vain",
+
+"they":"senai",
+"them":"senain",
+
+"this":"kelā",
+"that":"kelō",
+
+"these":"kelāin",
+"those":"kelōin",
+
+"here":"kēro",
+"there":"kōra",
+
+"want":"sōn",
+"need":"vashen",
+
+"please":"veshal",
+
+"walk":"trak",
+"run":"vreh",
+"jump":"kren",
+
+"speak":"dren",
+"eat":"mekta",
+"drink":"druva",
+"sleep":"sorn",
+
+"fight":"tarv",
+
+"help":"dravah",
+
+"read":"tekra",
+"write":"skriv",
+
+"teach":"rehn",
+"learn":"vahli",
+
+"build":"bren",
+
+"burn":"kresha",
+
+"hide":"shek",
+
+"follow":"vorn",
+
+"smile":"selin",
+
+"hug":"kolen",
+
+"kiss":"koni",
+
+"happy":"sahl",
+
+"beautiful":"lin'nari",
+
+"strong":"vek'kai",
+
+"cool":"kāvra",
+
+"shit":"sēt",
+
+"fuck":"drak",
+
+"damn":"xza",
+
+"heart":"korne",
+
+"head":"thaun",
+
+"eyes":"vaka",
+
+"skin":"nirak",
+
+"mouth":"vahl'ten"
+
+};
+
+/* ===========================
+   REVERSE BANK
+=========================== */
+
+const feinicReverse = {};
+
+for(let key in feinicDictionary){
+
+    feinicReverse[
+        feinicDictionary[key].toLowerCase()
+    ] = key;
+
+}
+
+let englishToFeinic = true;
+
+/* ===========================
+   TRANSLATE
+=========================== */
+
+function feinicTranslate(){
+
+    const text =
+        document
+        .getElementById("feinic-input")
+        .value
+        .trim();
+
+    const words =
+        text.split(/\s+/);
+
+    const translated =
+        words.map(word=>{
+
+            const clean =
+                word.toLowerCase();
+
+            if(englishToFeinic){
+
+                return feinicDictionary[clean] || word;
+
+            }else{
+
+                return feinicReverse[clean] || word;
+
+            }
+
+        });
+
+    document
+    .getElementById("feinic-output")
+    .value =
+    translated.join(" ");
+
+}
+
+/* ===========================
+   SWAP
+=========================== */
+
+function feinicSwap(){
+
+    englishToFeinic =
+        !englishToFeinic;
+
+    if(englishToFeinic){
+
+        document.getElementById(
+            "feinic-leftLabel"
+        ).textContent =
+        "English";
+
+        document.getElementById(
+            "feinic-rightLabel"
+        ).textContent =
+        "Feinic";
+
+    }else{
+
+        document.getElementById(
+            "feinic-leftLabel"
+        ).textContent =
+        "Feinic";
+
+        document.getElementById(
+            "feinic-rightLabel"
+        ).textContent =
+        "English";
+
+    }
+
+    document.getElementById(
+        "feinic-input"
+    ).value = "";
+
+    document.getElementById(
+        "feinic-output"
+    ).value = "";
+
+}
+
+</script>
+
+
+
+
+</section>
+
+<!---ITEMS--->
+<!---Journal--->
+<section id="Journal" class="article">
+<div id="journal-container">
+
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   WRAPPER
+========================= */
+
+#field-journal-module{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    font-family:'Homemade Apple', cursive;
+}
+
+/* =========================
+   GATE
+========================= */
+
+#fj-gate{
+    position:absolute;
+    top:40%;
+    text-align:center;
+    z-index:10;
+}
+
+#fj-gate input{
+    padding:12px;
+    width:260px;
+    border-radius:8px;
+    border:none;
+    outline:none;
+    font-family:inherit;
+}
+
+#fj-gate button{
+    margin-top:10px;
+    padding:10px 18px;
+    background:#3b2a22;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* =========================
+   BOOK
+========================= */
+
+#fj-book{
+    display:none;
+    width:950px;
+    height:620px;
+    perspective:3200px;
+    position:relative;
+}
+
+/* =========================
+   COVER (SPINE OPEN)
+========================= */
+
+#fj-cover{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg,#3b2a22,#120b08);
+    color:#d6c2a8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    letter-spacing:4px;
+    border-radius:10px;
+    transform-origin:left;
+    z-index:5;
+    box-shadow:0 30px 90px rgba(0,0,0,.6);
+    transition:transform 1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+#fj-cover.open{
+    transform:rotateY(-125deg);
+}
+
+/* =========================
+   PAGES
+========================= */
+
+.fj-page{
+    position:absolute;
+    width:50%;
+    height:100%;
+    right:0;
+    transform-origin:left;
+    transform-style:preserve-3d;
+    transition:transform 1s cubic-bezier(.2,.8,.2,1);
+}
+
+/* PAGE FLIP STATE */
+.fj-flipped{
+    transform:rotateY(-180deg);
+}
+
+/* =========================
+   PAGE CURL SHADOW
+========================= */
+
+.fj-page::after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:0;
+    width:70px;
+    height:100%;
+    background:linear-gradient(to left, rgba(0,0,0,.28), transparent);
+    transform:skewY(-3deg);
+    pointer-events:none;
+}
+
+/* =========================
+   PAPER TEXTURE (RESTORED)
+========================= */
+
+.fj-front,
+.fj-back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    backface-visibility:hidden;
+
+    background:
+        radial-gradient(circle at 30% 20%, rgba(0,0,0,0.06), transparent 45%),
+        repeating-linear-gradient(
+            transparent,
+            transparent 28px,
+            rgba(0,0,0,0.08) 29px
+        ),
+        #f4ead8;
+
+    padding:22px;
+    box-sizing:border-box;
+    color:#2a1f18;
+}
+
+/* BACK SIDE */
+.fj-back{
+    transform:rotateY(180deg);
+}
+
+/* =========================
+   PAGE CONTENT
+========================= */
+
+.fj-header{
+    text-align:center;
+    font-weight:bold;
+    font-size:18px;
+    border-bottom:1px solid rgba(0,0,0,.25);
+    margin-bottom:10px;
+    padding-bottom:6px;
+}
+
+.fj-text{
+    font-size:14px;
+    line-height:1.7;
+}
+
+.fj-page-number{
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:12px;
+    opacity:.55;
+}
+
+/* =========================
+   NAV
+========================= */
+
+.fj-nav{
+    position:absolute;
+    bottom:12px;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    padding:0 20px;
+}
+
+.fj-nav button{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:none;
+    background:#3b2a22;
+    color:white;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.fj-nav button:disabled{
+    opacity:.3;
+    cursor:not-allowed;
+}
+
+</style>
+
+<div id="field-journal-module">
+
+<!-- GATE -->
+<div id="fj-gate">
+    <h2>Field Archive Access</h2>
+    <input id="fj-search" placeholder="Enter clearance keyword">
+    <br>
+    <button onclick="fjUnlock()">Enter</button>
+</div>
+
+<audio id="fj-sound" src="https://www.soundjay.com/misc/sounds/page-turn-1.mp3"></audio>
+
+<!-- BOOK -->
+<div id="fj-book">
+
+    <!-- COVER -->
+    <div id="fj-cover" onclick="openBook()">
+       Amber Moon's Journal
+    </div>
+
+    <!-- PAGE 1 -->
+    <div class="fj-page">
+        <div class="fj-front">
+            <div class="fj-header">Entry 01 — Forest Study</div>
+            <div class="fj-text">Root systems show abnormal fungal density near boundary zones.</div>
+            <div class="fj-page-number">1</div>
+        </div>
+        <div class="fj-back">
+            <div class="fj-header">Continuation</div>
+            <div class="fj-text">Decay acceleration increases in shaded regions.</div>
+            <div class="fj-page-number">2</div>
+        </div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div class="fj-page">
+        <div class="fj-front">
+            <div class="fj-header">Entry 02 — River Study</div>
+              <div class="fj-image">
+        Field Sketch Placeholder
+               </div>
+            <div class="fj-text">Subsurface flow suggests branching hydrological networks.</div>
+            <div class="fj-page-number">3</div>
+        </div>
+        <div class="fj-back">
+            <div class="fj-header">Hydrology Notes</div>
+            <div class="fj-text">Mineral density increases beyond marker stone.</div>
+            <div class="fj-page-number">4</div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <div class="fj-nav">
+        <button onclick="prev()">◀</button>
+        <button id="nextBtn" onclick="next()">▶</button>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+let current = 0;
+const pages = document.querySelectorAll(".fj-page");
+const sound = document.getElementById("fj-sound");
+
+/* GATE */
+function fjUnlock(){
+    const v = document.getElementById("fj-search").value.toLowerCase();
+    if(v.includes("fornix") || v.includes("sun") || v.includes("archive")){
+        document.getElementById("fj-gate").style.display="none";
+        document.getElementById("fj-book").style.display="block";
+    } else {
+        alert("Access Denied");
+    }
+}
+
+/* OPEN BOOK */
+function openBook(){
+    document.getElementById("fj-cover").classList.add("open");
+}
+
+/* SOUND */
+function flipSound(){
+    sound.currentTime = 0;
+    sound.play();
+}
+
+/* UPDATE */
+function update(){
+    pages.forEach((p,i)=>{
+        if(i < current){
+            p.classList.add("fj-flipped");
+        } else {
+            p.classList.remove("fj-flipped");
+        }
+    });
+
+    document.getElementById("nextBtn").disabled = current >= pages.length;
+}
+
+/* NEXT */
+function next(){
+    if(current < pages.length){
+        current++;
+        flipSound();
+        update();
+    }
+}
+
+/* PREV */
+function prev(){
+    if(current > 0){
+        current--;
+        flipSound();
+        update();
+    }
+}
+
+update();
+
+</script>
+
+</div>
+</section>
 <!-- PROFILES---------------------------------------------------------- -->
+<!--Amber-->
+<section id="Amber" class="article">
+
+
+<div class="article-title">Amber Moon</div>
+
+<div class="subtitle">
+    Air Fein Healer • "Zephandrel's Last Hope"
+</div>
+
+<div class="infobox">
+
+    <div class="infobox-header">
+        Character Data
+    </div>
+
+    <div class="infobox-image">
+        Image Placeholder
+    </div>
+
+    <table>
+
+        <tr>
+            <td><strong>Name</strong></td>
+            <td>Amber Moon</td>
+        </tr>
+
+        <tr>
+            <td><strong>Alias</strong></td>
+            <td>Zephandrel's Last Hope</td>
+        </tr>
+
+        <tr>
+            <td><strong>Gender</strong></td>
+            <td>Female</td>
+        </tr>
+
+        <tr>
+            <td><strong>Pronouns</strong></td>
+            <td>She / Her</td>
+        </tr>
+
+        <tr>
+            <td><strong>Birthday</strong></td>
+            <td>June 28</td>
+        </tr>
+
+        <tr>
+            <td><strong>Age</strong></td>
+            <td>Appears 25 • Recorded Age: 4,983+</td>
+        </tr>
+
+        <tr>
+            <td><strong>Sexuality</strong></td>
+            <td>Pansexual • Demiromantic</td>
+        </tr>
+
+        <tr>
+            <td><strong>Species</strong></td>
+            <td>Air Fein</td>
+        </tr>
+
+        <tr>
+            <td><strong>Clan</strong></td>
+            <td>Solaris</td>
+        </tr>
+
+        <tr>
+            <td><strong>Role</strong></td>
+            <td>Healer</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h2>Overview</h2>
+
+    <p>
+        "Genuine care plants seeds of hope and heals fractured spirits."
+    </p>
+
+    <p>
+        Amber Moon is a wandering Air Fein healer known for her kindness,
+        nurturing nature, and unusual connection to spirits. Despite her
+        cheerful disposition and endless compassion, she possesses a
+        fragmented past and memories that remain clouded in mystery.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Appearance</h2>
+
+    <p>
+        Amber is abnormally tall for a female Fein, standing between
+        5'10" and 5'11". She possesses a lean, lithe frame often described
+        as elegant or almost elvish in appearance.
+    </p>
+
+    <p>
+        She has mousey brown to honey-gold hair that falls roughly to the
+        middle of her neck. Her eyes are ocean blue and occasionally shift
+        in appearance depending on the time and conditions around her.
+    </p>
+
+    <p>
+        Amber's skin is peach-toned with a natural tan complexion.
+        Feinic markings resembling wisps spread across her torso and branch
+        into patterns resembling dragonfly wings across her back.
+    </p>
+
+    <p>
+        Her clothing usually consists of jeans and a sleeveless cropped top,
+        often leather. She frequently wears a single arm warmer, a silver
+        bangle, and occasionally a lace-and-pearl choker necklace.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Personality</h2>
+
+    <p>
+        Amber is caring, helpful, nurturing, imaginative, impulsive,
+        adventurous, and deeply loving.
+    </p>
+
+    <p>
+        Unlike many Fein who focus primarily on survival, Amber forms deep
+        attachments and genuinely loves people, animals, and life itself.
+        She often finds herself caring for children, tending to the sick,
+        and helping strangers without expecting anything in return.
+    </p>
+
+    <p>
+        She is naturally restless and dislikes staying in one place for
+        long. Her free-spirited nature often leads her into adventures,
+        unusual situations, and occasional chaos.
+    </p>
+
+    <p>
+        Despite her warm personality, she can be surprisingly feral when
+        needed and will not hesitate to stand her ground or protect those
+        she cares about.
+    </p>
+
+    <p>
+        A notable trait is her tendency to casually converse with spirits.
+        Her clairvoyance far exceeds that of most Air Fein occultists,
+        allowing her to perceive, communicate with, and comfort souls that
+        remain unsettled.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Likes</h2>
+
+    <ul>
+        <li>Sweets</li>
+        <li>Plants and gardening</li>
+        <li>Animals</li>
+        <li>Humans and human cultures</li>
+        <li>Fruit</li>
+        <li>Food in general</li>
+        <li>Painting and sketching</li>
+        <li>Reading</li>
+        <li>Journaling</li>
+        <li>Collecting shells, feathers, rocks, and sea glass</li>
+        <li>Nature and hiking</li>
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>Dislikes</h2>
+
+    <ul>
+        <li>Bitter foods</li>
+        <li>Spiders being too close to her</li>
+        <li>Dirt inside her home</li>
+        <li>The Underdark and Noxus</li>
+        <li>Dark environments that may corrupt her core</li>
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>Abilities</h2>
+
+    <h3>Wind Blade</h3>
+
+    <p>
+        Amber uses her speed and agility to generate cutting currents of
+        wind capable of slicing skin, flesh, and even bone when properly
+        aimed.
+    </p>
+
+    <h3>Air Explosion</h3>
+
+    <p>
+        Compresses a massive column of air before releasing it in a violent
+        burst that throws targets apart with tremendous force.
+    </p>
+
+    <h3>Shield Gale</h3>
+
+    <p>
+        Creates a shield composed of layered wind currents. The barrier can
+        protect herself or be projected onto an ally. The shield may also
+        regulate temperature, warming or cooling the protected individual.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Passive Abilities</h2>
+
+    <h3>Quick Feet</h3>
+
+    <p>
+        Amber moves significantly faster than the average Fein and can
+        perform short bursts of acceleration that make tracking her
+        movements difficult.
+    </p>
+
+    <h3>Twisting Skies</h3>
+
+    <p>
+        Her body moves naturally with the flow of physical attacks,
+        allowing her to avoid many close-range strikes through instinctive
+        movement and agility.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Skills</h2>
+
+    <ul>
+
+        <li><strong>Hand-to-Hand Combat</strong> — A fast, agile fighting
+        style emphasizing movement and speed.</li>
+
+        <li><strong>Archery</strong> — Competent with a hunter's bow and
+        capable of defending herself at range.</li>
+
+        <li><strong>Healing</strong> — Amber's signature skill. Her healing
+        magic manifests as pink particles and a warm sensation that repairs
+        injuries from within. She can restore severe wounds and alleviate
+        long-term pain, though powerful healing requires recovery time.</li>
+
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>Equipment</h2>
+
+    <ul>
+
+        <li>Hunter's Bow (self-made)</li>
+
+        <li>10 Poultices</li>
+
+        <li>30 Healing Potions</li>
+
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>History</h2>
+
+    <p>
+        Like many Fein, Amber was born from a stone. However, she always
+        felt incomplete, as though something important was missing from her
+        existence.
+    </p>
+
+    <p>
+        Throughout her life she displayed an unusual sense of purpose and
+        divinity. While other Air Fein possessed grace and agility, Amber
+        carried herself with a warmth and spiritual presence that set her
+        apart.
+    </p>
+
+    <p>
+        She spent centuries helping wherever she could: tending greenhouses,
+        working in nurseries, healing soldiers, caring for animals, and
+        assisting clinics throughout the capital.
+    </p>
+
+    <p>
+        Eventually the call of adventure became impossible to ignore.
+        Leaving behind her position as a respected healer, Amber chose to
+        follow the wind and discover whatever awaited her beyond the places
+        she had always known.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Family</h2>
+
+    <table>
+
+        <tr>
+            <td><strong>Father</strong></td>
+            <td>Jason Moon</td>
+        </tr>
+
+        <tr>
+            <td><strong>Mother</strong></td>
+            <td>Dorothy Moon</td>
+        </tr>
+
+        <tr>
+            <td><strong>Siblings</strong></td>
+            <td>None Recorded</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h2>Relationships</h2>
+
+    <table>
+
+        <tr>
+            <td><strong>Isla Olympia</strong></td>
+            <td>Best Friend</td>
+        </tr>
+
+        <tr>
+            <td><strong>Ephraim de Vries</strong></td>
+            <td>Lover</td>
+        </tr>
+
+        <tr>
+            <td><strong>Malrik Voskin</strong></td>
+            <td>Friend</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h2>Trivia</h2>
+
+    <p>
+        Amber is unknowingly an offshoot of Ophelia's soul. Following
+        Ophelia's fall, a fragment of divine essence separated and landed
+        within Zephandrel, eventually manifesting as Amber.
+    </p>
+
+    <p>
+        She embodies much of Ophelia's compassion, kindness, and desire to
+        heal, yet possesses none of Ophelia's memories.
+    </p>
+
+    <p>
+        Although mentally burdened by forgotten memories and unresolved
+        emotions, she hides her struggles exceptionally well behind warmth,
+        optimism, and genuine affection for others.
+    </p>
+
+</div>
+
+
+</section>
+
 
 <!---Ephraim--->
 <section id="Ephraim" class="article">
@@ -865,7 +2534,2058 @@ footer{
         </div>
 
         <div class="infobox-image">
+             <img src="https://uploads.onecompiler.io/44qukkttr/44qrpv4pn/Flynn.png"
+         style="width:100%; height:100%; object-fit:contain;">
+            
+        </div>
+
+        <table>
+            <tr>
+                <td><strong>Age</strong></td>
+                <td>Older than you think, younger than you'd expect</td>
+            </tr>
+
+            <tr>
+                <td><strong>Species</strong></td>
+                <td>Human?</td>
+            </tr>
+
+            <tr>
+                <td><strong>Height</strong></td>
+                <td>6'1</td>
+            </tr>
+
+            <tr>
+                <td><strong>Occupation</strong></td>
+                <td>Courier / Street Magician / Thief</td>
+            </tr>
+
+            <tr>
+                <td><strong>Affiliation</strong></td>
+                <td>Unaligned (Traveling)</td>
+            </tr>
+
+            <tr>
+                <td><strong>Residence</strong></td>
+                <td>Daiquiri (Coastal House)</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <!-- OPENING NOTE -->
+    <div class="section">
+        <h2>Encrypted Message</h2>
+
+        <p>
+            To Flynn,<br><br>
+            when you make it to Aegis, don’t cause too much trouble please…<br><br>
+            
+        </p>
+    </div>
+
+    <!-- PERSONALITY -->
+    <div class="section">
+        <h2>Personality</h2>
+
+        <p>
+            Flynn Decra is a thrill-seeking courier and opportunistic thief driven by the pursuit of risk, profit, and the chase itself. He rejects heroic ideals and moral obligation, instead valuing personal gain, entertainment, and freedom from constraint.
+            <br><br>
+            He presents as casual and careless, but operates with sharp opportunism and high adaptability, particularly in high-risk scenarios.
+        </p>
+
+        <p>
+            He views life as a game of leverage and odds, preferring to operate at the edge of failure where reward and danger intersect.
+        </p>
+    </div>
+
+    <!-- APPEARANCE -->
+    <div class="section">
+        <h2>Appearance</h2>
+
+        <p>
+            Flynn stands at 6'1" with a lean swimmer’s build and a defined jawline. He has long wavy white hair, often slicked back.
+            His expression is usually a slight grin, though he can adopt a precise and unreadable poker face when working.
+        </p>
+
+        <p>
+            He appears approximately 19–26 years old, though his true age is uncertain or inconsistently reported.
+        </p>
+    </div>
+
+    <!-- ABILITIES -->
+    <div class="section">
+        <h2>Abilities Overview</h2>
+
+        <p>
+            Flynn is classified as a <strong>Displacer</strong>, an individual originating from spatially unstable or warped regions of existence.
+            His abilities center around spatial manipulation, card-based magical systems, and duplication-based artifact creation.
+        </p>
+
+        <p>
+            He channels most abilities through card systems and magical instruments, including his primary systems:
+        </p>
+
+        <ul>
+            <li>52 Windows: Courier’s Highway (spatial portals / wormholes)</li>
+            <li>Memory Cards (stored magic, single-use abilities, compression system)</li>
+            <li>Counterfeit (magical duplication and item replication)</li>
+        </ul>
+    </div>
+
+    <!-- ABILITY 1 -->
+    <div class="section">
+        <h2>Ability I — 52 Windows: Courier’s Highway</h2>
+
+        <p>
+            Flynn manifests spatial “windows” in the form of card-sized portals that can be expanded into large-scale traversal gateways.
+            These portals allow near-instant travel and environmental interaction across distances.
+        </p>
+
+        <p>
+            Each window requires pairing (entry/exit), and can be recalled or repositioned mentally. However, overextension of focus destabilizes active windows.
+        </p>
+
+        <p>
+            Specialized techniques include acceleration chaining, suction/repulsion force layering, and spatial reconnaissance via proximity sensing.
+        </p>
+    </div>
+
+    <!-- ABILITY 2 -->
+    <div class="section">
+        <h2>Ability II — Memory Cards</h2>
+
+        <p>
+            Flynn stores magical effects, captured abilities, and recorded events into consumable “memory cards.”
+            These cards can be activated once before depletion, or reshuffled at the cost of corruption.
+        </p>
+
+        <p>
+            Corrupted cards become unstable and function as volatile explosive outputs rather than controlled spells.
+        </p>
+
+        <p>
+            Advanced systems include snapshot capture, deck compression, lossless ritual restructuring, and transferable “gift cards.”
+        </p>
+    </div>
+
+    <!-- ABILITY 3 -->
+    <div class="section">
+        <h2>Ability III — Counterfeit</h2>
+
+        <p>
+            Flynn can replicate magical and physical objects through touch-based duplication. Replicas retain partial effectiveness but degrade in power and durability.
+        </p>
+
+        <p>
+            Mass duplication enables overwhelming quantity-based strategies, while enhanced techniques allow controlled telekinetic manipulation of copied objects.
+        </p>
+
+        <p>
+            Integration with Memory Cards enables hybrid constructs with layered functionality at the cost of structural stability.
+        </p>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="section">
+        <h2>Overview</h2>
+
+        <p>
+            Flynn is not a traditional hero or villain. He is an opportunist defined by motion, deception, and transactional survival.
+            His motivations are rooted in wealth accumulation, thrill-seeking, and self-directed freedom rather than ideology.
+        </p>
+
+        <p>
+            His presence in any system introduces unpredictability due to his ability to bend space, replicate assets, and weaponize information.
+        </p>
+    </div>
+
+</section>
+<!-- MALRIK VOSKIN -->
+
+<section id="Malrik Voskin" class="article">
+
+    <div class="article-title">Malrik Voskin</div>
+
+    <div class="subtitle">
+        Classified Profile Entry
+    </div>
+
+    <!-- INFOBOX -->
+    <div class="infobox">
+
+        <div class="infobox-header">
+            Character Data
+        </div>
+
+        <div class="infobox-image">
+            <img src="your-image.png" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+
+        <table>
+            <tr>
+                <td><strong>Age</strong></td>
+                <td>???</td>
+            </tr>
+
+            <tr>
+                <td><strong>Gender</strong></td>
+                <td>???</td>
+            </tr>
+
+            <tr>
+                <td><strong>Height</strong></td>
+                <td>???</td>
+            </tr>
+
+            <tr>
+                <td><strong>Species</strong></td>
+                <td>???</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="section">
+        <h2>Appearance</h2>
+        <p>
+            Describe the character’s physical traits here—hair, eyes, clothing, markings, etc.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Abilities</h2>
+        <p>
+            List powers, skills, or special traits here.
+        </p>
+        <tr>
+    <td><strong>Abilities</strong></td>
+    <td>Fire manipulation, regeneration, etc.</td>
+</tr>
+    </div>
+
+    <div class="section">
+        <h2>Background</h2>
+        <p>
+            Character lore, history, origin, etc.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- CONTAINMENT -->
+
+<section id="containment" class="article">
+
+    <div class="article-title">Containment Protocols</div>
+
+    <div class="subtitle">
+        Restricted Security Documentation
+    </div>
+
+    <div class="section">
+
+        <h2>Protocol Types</h2>
+
+        <p>
+            Containment classifications range from passive observation
+            to total environmental lockdown.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- EXPERIMENTS -->
+
+<section id="experiments" class="article">
+
+    <div class="article-title">Experiment Logs</div>
+
+    <div class="subtitle">
+        Internal Research Documents
+    </div>
+
+    <div class="section">
+
+        <h2>Testing Procedures</h2>
+
+        <p>
+            Experimental procedures are archived chronologically
+            and linked through the database network.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- HISTORY -->
+
+<section id="history" class="article">
+
+    <div class="article-title">Historical Incidents</div>
+
+    <div class="subtitle">
+        Archived Event Timeline
+    </div>
+
+    <div class="section">
+
+        <h2>Foundation Era</h2>
+
+        <p>
+            The F.O.R.N.I.X system originated as a decentralized
+            intelligence archive during early containment initiatives.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ARCHIVES -->
+
+<section id="archives" class="article">
+
+    <div class="article-title">Archives</div>
+
+    <div class="subtitle">
+        Legacy Documents and Records
+    </div>
+
+    <div class="section">
+
+        <h2>Data Recovery</h2>
+
+        <p>
+            Multiple corrupted entries remain inaccessible.
+        </p>
+
+    </div>
+
+</section>
+
+<footer>
+    F.O.R.N.I.X Internal Database • Access Logged • Unauthorized distribution prohibited
+</footer>
+
+</main>
+
+</div>
+
+<script>
+
+/* ARTICLE NAVIGATION */
+
+function showArticle(articleId){
+
+    let articles = document.querySelectorAll(".article");
+
+    articles.forEach(article=>{
+        article.classList.remove("active");
+    });
+
+    document.getElementById(articleId).classList.add("active");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+/* SEARCH FUNCTION */
+
+
+
+/* ARTICLE NAVIGATION */
+
+function showArticle(articleId){
+
+    let articles = document.querySelectorAll(".article");
+
+    articles.forEach(article=>{
+        article.classList.remove("active");
+    });
+
+    document.getElementById(articleId).classList.add("active");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+/* SEARCH FUNCTION */
+
+function searchArticle(){
+
+    let input = document.getElementById("searchInput").value.toLowerCase();
+
+    let articles = document.querySelectorAll(".article");
+
+    let found = false;
+
+    articles.forEach(article=>{
+
+        let title = article.querySelector(".article-title")
+        .innerText
+        .toLowerCase();
+
+        if(title.includes(input)){
+
+            article.classList.add("active");
+            found = true;
+
+        }else{
+
+            article.classList.remove("active");
+
+        }
+
+    });
+
+    if(!found){
+
+        alert("No matching article found.");
+
+    }
+
+}
+
+/* ENTER KEY SEARCH */
+
+document.getElementById("searchInput")
+.addEventListener("keypress", function(event){
+
+    if(event.key === "Enter"){
+
+        searchArticle();
+
+    }
+
+});
+
+/* THEME TOGGLE */
+
+let darkMode = true;
+
+function toggleTheme(){
+
+    if(darkMode){
+
+        document.body.style.background = "#f6f6f6";
+        document.body.style.color = "#111";
+
+        darkMode = false;
+
+    }else{
+
+        document.body.style.background = "#0d1117";
+        document.body.style.color = "#e6edf3";
+
+        darkMode = true;
+
+    }
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>F.O.R.N.I.X</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#0d1117;
+    color:#e6edf3;
+}
+
+/* TOP BAR */
+
+.topbar{
+    height:60px;
+    background:#161b22;
+    border-bottom:1px solid #30363d;
+    display:flex;
+    align-items:center;
+    padding:0 20px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:30px;
+    margin-right:12px;
+    color:#f6f6f6
+}
+
+.title{
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:3px;
+    color:white;
+}
+
+.search-container{
+    margin-left:auto;
+    display:flex;
+    gap:10px;
+}
+
+.search-container input{
+    width:250px;
+    padding:8px;
+    background:#0d1117;
+    border:1px solid #30363d;
+    color:white;
+    border-radius:4px;
+}
+
+.search-container button{
+    padding:8px 14px;
+    background:#b487de;
+    border:none;
+    color:white;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.search-container button:hover{
+    background:#8359ab;
+}
+
+/* LAYOUT */
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:240px;
+    background:#161b22;
+    border-right:1px solid #30363d;
+    padding:20px;
+}
+
+.sidebar h3{
+    margin-top:20px;
+    margin-bottom:10px;
+    color:#a6b1bd;
+    font-size:14px;
+    border-bottom:1px solid #30363d;
+    padding-bottom:5px;
+}
+
+.sidebar a{
+    display:block;
+    color:#b267eb;
+    text-decoration:none;
+    margin:10px 0;
+    font-size:15px;
+}
+
+.sidebar a:hover{
+    text-decoration:underline;
+}
+
+/* MAIN CONTENT */
+
+.content{
+    flex:1;
+    padding:40px;
+}
+
+.article{
+    display:none;
+}
+
+.article.active{
+    display:block;
+}
+
+.article-title{
+    font-size:40px;
+    margin-bottom:10px;
+    border-bottom:1px solid #30363d;
+    padding-bottom:10px;
+}
+
+.subtitle{
+    color:#8b949e;
+    margin-bottom:25px;
+}
+
+/* INFOBOX */
+
+.infobox{
+    float:right;
+    width:280px;
+    background:#161b22;
+    border:1px solid #30363d;
+    margin-left:25px;
+    margin-bottom:20px;
+}
+
+.infobox-header{
+    background:#21262d;
+    padding:12px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.infobox-image{
+    height:180px;
+    background:#30363d;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#8b949e;
+}
+
+.infobox table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.infobox td{
+    border-top:1px solid #30363d;
+    padding:10px;
+}
+
+/* SECTIONS */
+
+.section{
+    margin-top:40px;
+}
+
+.section h2{
+    font-size:28px;
+    margin-bottom:15px;
+    border-bottom:1px solid #30363d;
+    padding-bottom:8px;
+}
+
+.section p{
+    line-height:1.8;
+    margin-bottom:16px;
+}
+
+/* LINKS INSIDE ARTICLES */
+
+.article a{
+    color:#b267eb;
+    text-decoration:none;
+}
+
+.article a:hover{
+    text-decoration:underline;
+}
+
+/* FOOTER */
+
+footer{
+    margin-top:60px;
+    padding-top:20px;
+    border-top:1px solid #30363d;
+    color:#8b949e;
+    font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .content{
+        padding:20px;
+    }
+
+    .infobox{
+        float:none;
+        width:100%;
+        margin-left:0;
+    }
+
+    .search-container input{
+        width:140px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+    
+    <a href="#" class="logo-link" onclick="showArticle('home')">
+    <span class="logo">⟁</span>
+</a>
+</a>
+
+    <div class="title">
+        <strong>F.O.R.N.I.X</strong>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search F.O.R.N.I.X">
+        <button onclick="searchArticle()">Search</button>
+    </div>
+
+</div>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <h3>Navigation</h3>
+
+    <a href="#" onclick="showArticle('home')">Main Page</a>
+    <a href="#" onclick="showArticle('archives')">Archives</a>
+    <a href="#" onclick="showArticle('magitek')">Magitek</a>
+    <a href="#" onclick="showArticle('entities')">Entities</a>
+    <a href="#" onclick="showArticle('character')">Character Profile</a>
+
+    <h3>Research</h3>
+
+    <a href="#" onclick="showArticle('containment')">Containment</a>
+    <a href="#" onclick="showArticle('experiments')">Experiments</a>
+    <a href="#" onclick="showArticle('history')">History</a>
+
+    <h3>System</h3>
+
+    <a href="#" onclick="toggleTheme()">Toggle Theme</a>
+
+</aside>
+
+<!-- CONTENT -->
+
+<main class="content">
+
+<!-- HOME -->
+
+<section id="home" class="article active">
+
+    <div class="article-title">Welcome to F.O.R.N.I.X</div>
+
+    <div class="subtitle">
+        Classified Information Network
+    </div>
+
+    <div class="infobox">
+
+        <div class="infobox-header">
+            System Overview
+        </div>
+
+        <div class="infobox-image">
+            F.O.R.N.I.X DATABASE
+        </div>
+
+        <table>
+            <tr>
+                <td><strong>Status</strong></td>
+                <td>Online</td>
+            </tr>
+
+            <tr>
+                <td><strong>Clearance</strong></td>
+                <td>Restricted</td>
+            </tr>
+
+            <tr>
+                <td><strong>Version</strong></td>
+                <td>2.6</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <p>
+        Welcome to the F.O.R.N.I.X archival system.
+        This database contains interconnected research files,
+        experimental logs, anomalous records, and classified technology.
+    </p>
+
+    <div class="section">
+
+        <h2>Featured Pages</h2>
+
+        <p>
+            Visit the <a href="#" onclick="showArticle('entities')">Entities Database</a>
+            or browse the
+           <a href="#" onclick="showArticle('magitek')">Magitek Division</a>
+        </p>
+
+    </div>
+
+</section>
+
+<!-- TECHNOLOGY -->
+
+<section id="magitek" class="article">
+
+    <div class="article-title">Magitek Division</div>
+
+    <div class="subtitle">
+        Arcane-Mechanical Systems and Devices
+    </div>
+
+    <div class="section">
+
+        <h2>Overview</h2>
+
+        <p>
+            The Technology Division develops advanced containment systems,
+            energy platforms, and neural interfaces.
+        </p>
+
+    </div>
+
+    <div class="section">
+
+        <h2>Connected Files</h2>
+
+        <p>
+            Refer to:
+            <a href="#" onclick="showArticle('experiments')">Experiment Logs</a>
+            and
+            <a href="#" onclick="showArticle('containment')">Containment Protocols</a>.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ENTITIES -->
+
+<section id="entities" class="article">
+
+    <div class="article-title">Entities Database</div>
+
+    <div class="subtitle">
+        Catalogued Biological and Anomalous Organisms
+    </div>
+
+    <div class="section">
+
+        <h2>Current Status</h2>
+
+        <p>
+            217 active biological entities remain under observation.
+        </p>
+
+    </div>
+
+    <div class="section">
+
+        <h2>Cross References</h2>
+
+        <p>
+            See also:
+            <a href="#" onclick="showArticle('history')">Historical Incidents</a>.
+            <a href="#" onclick="showArticle('character')">Character Profile</a>,
+            
+            
+        </p>
+        
+        
+        <p>
+          A: </p>
+            <p> <a href="#" onclick="showArticle('Amber')">Amber Moon</a> </p>
+        <p>  B: </p>
+         <p>  E:  </p>
+         <p>  <a href="#" onclick="showArticle('Ephraim')">Ephraïm</a>  </p>
+          <p>  F:  </p>
+        
+         <p> <a href="#" onclick="showArticle('Flynn')">Flynn</a> </p>
+         <p> M: </p>
+         <p> <a href="#" onclick="showArticle('Malrik Voskin')">Malrik Voskin</a>
+           <p> <a href="#" onclick="showArticle('Journal')">Journal</a>
+        </p>
+
+    </div>
+
+</section>
+
+<section id="character" class="article">
+
+    <div class="article-title">Character Name</div>
+
+    <div class="subtitle">
+        Classified Profile Entry
+    </div>
+
+    <!-- INFOBOX -->
+    <div class="infobox">
+
+        <div class="infobox-header">
+            Character Data
+        </div>
+
+        <div class="infobox-image">
+            <img src="your-image.png" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+
+        <table>
+            <tr>
+                <td><strong>Age</strong></td>
+                <td>???</td>
+            </tr>
+
+            <tr>
+                <td><strong>Gender</strong></td>
+                <td>???</td>
+            </tr>
+
+            <tr>
+                <td><strong>Height</strong></td>
+                <td>???</td>
+            </tr>
+
+            <tr>
+                <td><strong>Species</strong></td>
+                <td>???</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="section">
+        <h2>Appearance</h2>
+        <p>
+            Describe the character’s physical traits here—hair, eyes, clothing, markings, etc.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Abilities</h2>
+        <p>
+            List powers, skills, or special traits here.
+        </p>
+        <tr>
+    <td><strong>Abilities</strong></td>
+    <td>Fire manipulation, regeneration, etc.</td>
+</tr>
+    </div>
+
+    <div class="section">
+        <h2>Background</h2>
+        <p>
+            Character lore, history, origin, etc.
+        </p>
+    </div>
+
+</section>
+<!---ITEMS--->
+<!---Journal--->
+<section id="Journal" class="article">
+  <div id="journal-container" class="hidden">
+    
+    <!-- GOOGLE FONT (SCOPED USAGE ONLY) -->
+<link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">
+
+<style>
+/* =========================
+   JOURNAL MODULE CONTAINER
+   (THIS IS WHAT FIXES YOUR FONT ISSUE)
+========================= */
+
+#field-journal-module{
+    all: initial;
+    position: relative;
+    display: block;
+    font-family: 'Homemade Apple', cursive;
+}
+
+/* =========================
+   GLOBAL JOURNAL WRAPPER
+========================= */
+
+#field-journal{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+}
+
+/* =========================
+   SEARCH GATE
+========================= */
+
+#fj-gate{
+    position:absolute;
+    top:40%;
+    text-align:center;
+    font-family:inherit;
+}
+
+#fj-gate input{
+    padding:12px;
+    width:280px;
+    border-radius:8px;
+    border:none;
+    outline:none;
+}
+
+#fj-gate button{
+    margin-top:10px;
+    padding:10px 18px;
+    background:#3b2a22;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* =========================
+   BOOK
+========================= */
+
+#fj-book{
+    display:none;
+    width:1000px;
+    height:650px;
+    perspective:2500px;
+    position:relative;
+}
+
+/* =========================
+   PAGES
+========================= */
+
+.fj-page{
+    position:absolute;
+    width:50%;
+    height:100%;
+    right:0;
+    transform-origin:left;
+    transform-style:preserve-3d;
+    transition: transform 1s cubic-bezier(.2,.8,.2,1);
+}
+
+/* REALISTIC CURL LAYER */
+.fj-page::after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:0;
+    width:40px;
+    height:100%;
+    background:linear-gradient(to left, rgba(0,0,0,0.15), transparent);
+    transform: skewY(-2deg);
+    pointer-events:none;
+}
+
+/* FLIP STATE */
+.fj-flipped{
+    transform: rotateY(-180deg) translateX(-2px);
+}
+
+/* LEFT SIDE */
+.fj-page.left{
+    left:0;
+    right:auto;
+}
+
+/* =========================
+   PAPER TEXTURE
+========================= */
+
+.fj-front, .fj-back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    backface-visibility:hidden;
+
+    background:
+        radial-gradient(circle at 30% 20%, rgba(0,0,0,0.06), transparent 40%),
+        repeating-linear-gradient(
+            transparent,
+            transparent 28px,
+            rgba(0,0,0,0.08) 29px
+        ),
+        #f4ead8;
+
+    padding:25px;
+    box-sizing:border-box;
+    color:#2a1f18;
+}
+
+/* BACK SIDE */
+.fj-back{
+    transform: rotateY(180deg);
+}
+
+/* =========================
+   CONTENT BOXES
+========================= */
+
+.fj-header{
+    font-size:20px;
+    border-bottom:1px solid rgba(0,0,0,0.2);
+    margin-bottom:10px;
+    text-align:center;
+}
+
+.fj-image{
+    height:180px;
+    border:2px dashed rgba(0,0,0,0.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:12px;
+    font-size:13px;
+    opacity:0.6;
+}
+
+.fj-text{
+    font-size:15px;
+    line-height:1.7;
+}
+
+.fj-page-number{
+    position:absolute;
+    bottom:12px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:12px;
+    opacity:0.6;
+}
+
+/* =========================
+   NAV BUTTONS
+========================= */
+
+.fj-nav{
+    position:absolute;
+    bottom:20px;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    padding:0 25px;
+}
+
+.fj-nav button{
+    background:#3b2a22;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:50%;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.fj-nav button:hover{
+    transform:scale(1.1);
+}
+</style>
+
+<!-- =========================
+     MODULE WRAPPER
+========================= -->
+
+<div id="field-journal-module">
+
+    <!-- SEARCH GATE -->
+    <div id="fj-gate">
+        <h2 style="color:#d6c2a8;">Field Archive Access</h2>
+        <input id="fj-search" placeholder="Enter clearance keyword...">
+        <br>
+        <button onclick="fjUnlock()">Search</button>
+    </div>
+
+    <!-- SOUND -->
+    <audio id="fj-sound" src="https://www.soundjay.com/misc/sounds/page-turn-1.mp3"></audio>
+
+    <!-- BOOK -->
+    <div id="fj-book">
+
+        <!-- PAGE TEMPLATE 1 -->
+        <div class="fj-page" id="fj-p1">
+            <div class="fj-front">
+                <div class="fj-header">Entry #01 — Forest Edge Study</div>
+                <div class="fj-image">Pressed Leaf Sample</div>
+                <div class="fj-text">Notes on soil saturation and root behavior near boundary tree lines.</div>
+                <div class="fj-page-number">1</div>
+            </div>
+            <div class="fj-back">
+                <div class="fj-header">Continuation</div>
+                <div class="fj-image">Field Sketch</div>
+                <div class="fj-text">Fungal networks appear unusually dense beneath decaying bark layers.</div>
+                <div class="fj-page-number">2</div>
+            </div>
+        </div>
+
+        <!-- PAGE TEMPLATE 2 -->
+        <div class="fj-page" id="fj-p2">
+            <div class="fj-front">
+                <div class="fj-header">Entry #02 — River Specimens</div>
+                <div class="fj-image">Aquatic Diagram</div>
+                <div class="fj-text">Flow variance suggests subterranean branching channels.</div>
+                <div class="fj-page-number">3</div>
+            </div>
+            <div class="fj-back">
+                <div class="fj-header">Hydrology Notes</div>
+                <div class="fj-image">Water Sample</div>
+                <div class="fj-text">Mineral concentration increases downstream beyond marker stone.</div>
+                <div class="fj-page-number">4</div>
+            </div>
+        </div>
+        
+                <!-- PAGE TEMPLATE 3 -->
+        <div class="fj-page" id="fj-p3">
+            <div class="fj-front">
+                <div class="fj-header">Entry #03 — New Friends</div>
+                <div class="fj-image">Aquatic Diagram</div>
+                <div class="fj-text">Flow variance suggests subterranean branching channels.</div>
+                <div class="fj-page-number">4</div>
+            </div>
+            <div class="fj-back">
+                <div class="fj-header">Entry #04</div>
+                <div class="fj-image">Water Sample</div>
+                <div class="fj-text">Mineral concentration increases downstream beyond marker stone.</div>
+                <div class="fj-page-number">5</div>
+            </div>
+        </div>
+
+        <!-- NAV -->
+        <div class="fj-nav">
+            <button onclick="fjPrev()">◀</button>
+            <button onclick="fjNext()">▶</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+let fjCurrent = 0;
+const fjPages = document.querySelectorAll(".fj-page");
+const fjSound = document.getElementById("fj-sound");
+
+function fjUnlock(){
+    const val = document.getElementById("fj-search").value.toLowerCase();
+
+    if(val.includes("sun") || val.includes("flower") || val.includes("sunflower")){
+        document.getElementById("fj-gate").style.display = "none";
+        document.getElementById("fj-book").style.display = "block";
+    } else {
+        alert("Access Denied");
+    }
+}
+
+function fjPlay(){
+    fjSound.currentTime = 0;
+    fjSound.play();
+}
+
+function fjUpdate(){
+    fjPages.forEach((p,i)=>{
+        if(i <= fjCurrent){
+            p.classList.add("fj-flipped");
+        } else {
+            p.classList.remove("fj-flipped");
+        }
+    });
+}
+
+function fjNext(){
+    if(fjCurrent < fjPages.length){
+        fjCurrent++;
+        fjPlay();
+        fjUpdate();
+    }
+}
+
+function fjPrev(){
+    if(fjCurrent > 0){
+        fjCurrent--;
+        fjPlay();
+        fjUpdate();
+    }
+}
+
+fjUpdate();
+</script>
+    
+  </div>
+</section>
+<!-- PROFILES---------------------------------------------------------- -->
+<!--Amber-->
+<section id="Amber" class="article">
+
+
+<div class="article-title">Amber Moon</div>
+
+<div class="subtitle">
+    Air Fein Healer • "Zephandrel's Last Hope"
+</div>
+
+<div class="infobox">
+
+    <div class="infobox-header">
+        Character Data
+    </div>
+
+    <div class="infobox-image">
+        Image Placeholder
+    </div>
+
+    <table>
+
+        <tr>
+            <td><strong>Name</strong></td>
+            <td>Amber Moon</td>
+        </tr>
+
+        <tr>
+            <td><strong>Alias</strong></td>
+            <td>Zephandrel's Last Hope</td>
+        </tr>
+
+        <tr>
+            <td><strong>Gender</strong></td>
+            <td>Female</td>
+        </tr>
+
+        <tr>
+            <td><strong>Pronouns</strong></td>
+            <td>She / Her</td>
+        </tr>
+
+        <tr>
+            <td><strong>Birthday</strong></td>
+            <td>June 28</td>
+        </tr>
+
+        <tr>
+            <td><strong>Age</strong></td>
+            <td>Appears 25 • Recorded Age: 4,983+</td>
+        </tr>
+
+        <tr>
+            <td><strong>Sexuality</strong></td>
+            <td>Pansexual • Demiromantic</td>
+        </tr>
+
+        <tr>
+            <td><strong>Species</strong></td>
+            <td>Air Fein</td>
+        </tr>
+
+        <tr>
+            <td><strong>Clan</strong></td>
+            <td>Solaris</td>
+        </tr>
+
+        <tr>
+            <td><strong>Role</strong></td>
+            <td>Healer</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h2>Overview</h2>
+
+    <p>
+        "Genuine care plants seeds of hope and heals fractured spirits."
+    </p>
+
+    <p>
+        Amber Moon is a wandering Air Fein healer known for her kindness,
+        nurturing nature, and unusual connection to spirits. Despite her
+        cheerful disposition and endless compassion, she possesses a
+        fragmented past and memories that remain clouded in mystery.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Appearance</h2>
+
+    <p>
+        Amber is abnormally tall for a female Fein, standing between
+        5'10" and 5'11". She possesses a lean, lithe frame often described
+        as elegant or almost elvish in appearance.
+    </p>
+
+    <p>
+        She has mousey brown to honey-gold hair that falls roughly to the
+        middle of her neck. Her eyes are ocean blue and occasionally shift
+        in appearance depending on the time and conditions around her.
+    </p>
+
+    <p>
+        Amber's skin is peach-toned with a natural tan complexion.
+        Feinic markings resembling wisps spread across her torso and branch
+        into patterns resembling dragonfly wings across her back.
+    </p>
+
+    <p>
+        Her clothing usually consists of jeans and a sleeveless cropped top,
+        often leather. She frequently wears a single arm warmer, a silver
+        bangle, and occasionally a lace-and-pearl choker necklace.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Personality</h2>
+
+    <p>
+        Amber is caring, helpful, nurturing, imaginative, impulsive,
+        adventurous, and deeply loving.
+    </p>
+
+    <p>
+        Unlike many Fein who focus primarily on survival, Amber forms deep
+        attachments and genuinely loves people, animals, and life itself.
+        She often finds herself caring for children, tending to the sick,
+        and helping strangers without expecting anything in return.
+    </p>
+
+    <p>
+        She is naturally restless and dislikes staying in one place for
+        long. Her free-spirited nature often leads her into adventures,
+        unusual situations, and occasional chaos.
+    </p>
+
+    <p>
+        Despite her warm personality, she can be surprisingly feral when
+        needed and will not hesitate to stand her ground or protect those
+        she cares about.
+    </p>
+
+    <p>
+        A notable trait is her tendency to casually converse with spirits.
+        Her clairvoyance far exceeds that of most Air Fein occultists,
+        allowing her to perceive, communicate with, and comfort souls that
+        remain unsettled.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Likes</h2>
+
+    <ul>
+        <li>Sweets</li>
+        <li>Plants and gardening</li>
+        <li>Animals</li>
+        <li>Humans and human cultures</li>
+        <li>Fruit</li>
+        <li>Food in general</li>
+        <li>Painting and sketching</li>
+        <li>Reading</li>
+        <li>Journaling</li>
+        <li>Collecting shells, feathers, rocks, and sea glass</li>
+        <li>Nature and hiking</li>
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>Dislikes</h2>
+
+    <ul>
+        <li>Bitter foods</li>
+        <li>Spiders being too close to her</li>
+        <li>Dirt inside her home</li>
+        <li>The Underdark and Noxus</li>
+        <li>Dark environments that may corrupt her core</li>
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>Abilities</h2>
+
+    <h3>Wind Blade</h3>
+
+    <p>
+        Amber uses her speed and agility to generate cutting currents of
+        wind capable of slicing skin, flesh, and even bone when properly
+        aimed.
+    </p>
+
+    <h3>Air Explosion</h3>
+
+    <p>
+        Compresses a massive column of air before releasing it in a violent
+        burst that throws targets apart with tremendous force.
+    </p>
+
+    <h3>Shield Gale</h3>
+
+    <p>
+        Creates a shield composed of layered wind currents. The barrier can
+        protect herself or be projected onto an ally. The shield may also
+        regulate temperature, warming or cooling the protected individual.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Passive Abilities</h2>
+
+    <h3>Quick Feet</h3>
+
+    <p>
+        Amber moves significantly faster than the average Fein and can
+        perform short bursts of acceleration that make tracking her
+        movements difficult.
+    </p>
+
+    <h3>Twisting Skies</h3>
+
+    <p>
+        Her body moves naturally with the flow of physical attacks,
+        allowing her to avoid many close-range strikes through instinctive
+        movement and agility.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Skills</h2>
+
+    <ul>
+
+        <li><strong>Hand-to-Hand Combat</strong> — A fast, agile fighting
+        style emphasizing movement and speed.</li>
+
+        <li><strong>Archery</strong> — Competent with a hunter's bow and
+        capable of defending herself at range.</li>
+
+        <li><strong>Healing</strong> — Amber's signature skill. Her healing
+        magic manifests as pink particles and a warm sensation that repairs
+        injuries from within. She can restore severe wounds and alleviate
+        long-term pain, though powerful healing requires recovery time.</li>
+
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>Equipment</h2>
+
+    <ul>
+
+        <li>Hunter's Bow (self-made)</li>
+
+        <li>10 Poultices</li>
+
+        <li>30 Healing Potions</li>
+
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>History</h2>
+
+    <p>
+        Like many Fein, Amber was born from a stone. However, she always
+        felt incomplete, as though something important was missing from her
+        existence.
+    </p>
+
+    <p>
+        Throughout her life she displayed an unusual sense of purpose and
+        divinity. While other Air Fein possessed grace and agility, Amber
+        carried herself with a warmth and spiritual presence that set her
+        apart.
+    </p>
+
+    <p>
+        She spent centuries helping wherever she could: tending greenhouses,
+        working in nurseries, healing soldiers, caring for animals, and
+        assisting clinics throughout the capital.
+    </p>
+
+    <p>
+        Eventually the call of adventure became impossible to ignore.
+        Leaving behind her position as a respected healer, Amber chose to
+        follow the wind and discover whatever awaited her beyond the places
+        she had always known.
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Family</h2>
+
+    <table>
+
+        <tr>
+            <td><strong>Father</strong></td>
+            <td>Jason Moon</td>
+        </tr>
+
+        <tr>
+            <td><strong>Mother</strong></td>
+            <td>Dorothy Moon</td>
+        </tr>
+
+        <tr>
+            <td><strong>Siblings</strong></td>
+            <td>None Recorded</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h2>Relationships</h2>
+
+    <table>
+
+        <tr>
+            <td><strong>Isla Olympia</strong></td>
+            <td>Best Friend</td>
+        </tr>
+
+        <tr>
+            <td><strong>Ephraim de Vries</strong></td>
+            <td>Lover</td>
+        </tr>
+
+        <tr>
+            <td><strong>Malrik Voskin</strong></td>
+            <td>Friend</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h2>Trivia</h2>
+
+    <p>
+        Amber is unknowingly an offshoot of Ophelia's soul. Following
+        Ophelia's fall, a fragment of divine essence separated and landed
+        within Zephandrel, eventually manifesting as Amber.
+    </p>
+
+    <p>
+        She embodies much of Ophelia's compassion, kindness, and desire to
+        heal, yet possesses none of Ophelia's memories.
+    </p>
+
+    <p>
+        Although mentally burdened by forgotten memories and unresolved
+        emotions, she hides her struggles exceptionally well behind warmth,
+        optimism, and genuine affection for others.
+    </p>
+
+</div>
+
+
+</section>
+
+
+<!---Ephraim--->
+<section id="Ephraim" class="article">
+
+    <div class="article-title">Ephraim Ad de Vries</div>
+
+    <div class="subtitle">
+        Asharoth-Pyrrian Kinetic Specialist
+    </div>
+
+    <!-- INFOBOX -->
+
+    <div class="infobox">
+
+        <div class="infobox-header">
+            Character Data
+        </div>
+
+        <div class="infobox-image">
             Image Placeholder
+        </div>
+
+        <table>
+
+            <tr>
+                <td><strong>Alignment</strong></td>
+                <td>Neutral</td>
+            </tr>
+
+            <tr>
+                <td><strong>Age</strong></td>
+                <td>5,822</td>
+            </tr>
+
+            <tr>
+                <td><strong>Species</strong></td>
+                <td>Fein ⇝ Asharoth-Pyrrian</td>
+            </tr>
+
+            <tr>
+                <td><strong>Race</strong></td>
+                <td>Rahzmir</td>
+            </tr>
+
+            <tr>
+                <td><strong>Gender</strong></td>
+                <td>Male</td>
+            </tr>
+
+            <tr>
+                <td><strong>Origin</strong></td>
+                <td>Malakar, Eldora</td>
+            </tr>
+
+            <tr>
+                <td><strong>Residence</strong></td>
+                <td>Orysa, Kingdom of Calliopy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Affiliation</strong></td>
+                <td>Unaligned</td>
+            </tr>
+
+            <tr>
+                <td><strong>Weight</strong></td>
+                <td>265 lbs</td>
+            </tr>
+
+            <tr>
+                <td><strong>Build</strong></td>
+                <td>Endomorph</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- APPEARANCE -->
+
+    <div class="section">
+
+        <h2>Appearance</h2>
+
+        <p>
+            Ephraim possesses olive-tan skin, white hair styled with a center
+            part and low taper fade, and carnation-pink eyes flecked with
+            brighter tones that may glow depending on kinetic energy intake.
+        </p>
+
+        <p>
+            His facial structure is angular with a strong jawline, high
+            cheekbones, a roman nose, and a fixed forward stare. He bears a
+            vertical scar over his left eye and a diagonal scar extending from
+            his lower right jaw to his right eye. Subtle pointed ears and
+            Asharoth markings betray his mixed heritage.
+        </p>
+
+    </div>
+
+    <!-- PERSONALITY -->
+
+    <div class="section">
+
+        <h2>Personality</h2>
+
+        <p>
+            Ephraim is stoic, controlled, opinionated, and notably nonchalant.
+            He rarely reacts emotionally and is difficult to provoke. Dry humor,
+            understated remarks, and emotional distance serve as his preferred
+            coping mechanisms.
+        </p>
+
+        <p>
+            He values accountability, personal choice, restraint, and consent.
+            He judges actions by outcomes rather than intentions or ideology and
+            has little patience for moral grandstanding.
+        </p>
+
+        <p>
+            Despite his independence, he desires genuine stability, meaningful
+            connections, and a family built through mutual choice rather than
+            obligation.
+        </p>
+
+    </div>
+
+    <!-- PASSIVES -->
+
+    <div class="section">
+
+        <h2>Passive Traits</h2>
+
+        <ul>
+
+            <li>Kinetic Intake</li>
+            <li>Inertia Anchoring</li>
+            <li>Structural Reinforcement</li>
+            <li>Enhanced Respiratory Capacity</li>
+            <li>Thermal Tolerance</li>
+            <li>Thermal Conversion</li>
+            <li>Asharoth Rune Network</li>
+            <li>Momentum Sight</li>
+            <li>Perfect Efficiency</li>
+
+        </ul>
+
+        <p>
+            His physiology continuously absorbs low-level kinetic energy while
+            reinforcing his body against impact, heat, pressure changes, and
+            momentum-based disruption.
+        </p>
+
+    </div>
+
+    <!-- PRIMARY ABILITY -->
+
+    <div class="section">
+
+        <h2>Primary Ability — Kinetic Ascension</h2>
+
+        <p>
+            Kinetic Ascension is the evolved state of Ephraim's Asharoth core.
+            Motion is no longer merely absorbed and redirected; it is generated,
+            maintained, and amplified internally.
+        </p>
+
+        <p>
+            Every breath, movement, muscle contraction, and shift in balance
+            contributes to a continuously cycling kinetic field. Stored motion
+            can be folded, compressed, and layered to dramatically increase
+            physical output.
+        </p>
+
+        <h3>Techniques</h3>
+
+        <ul>
+
+            <li>Inertia</li>
+            <li>Torque & Rotational Kinetics</li>
+            <li>Concussive Impact & Pressure Release</li>
+            <li>Vector Sovereignty</li>
+
+        </ul>
+
+        <h3>Weaknesses</h3>
+
+        <ul>
+
+            <li>Requires motion to sustain peak performance.</li>
+            <li>Suppression fields reduce effectiveness.</li>
+            <li>Excessive internal pressure requires venting.</li>
+            <li>Overstacked vectors risk collateral damage.</li>
+
+        </ul>
+
+    </div>
+
+    <!-- SECONDARY ABILITY -->
+
+    <div class="section">
+
+        <h2>Secondary Ability — Kinetic Imprinting</h2>
+
+        <p>
+            Ephraim can carve kinetic runes onto objects, transforming them into
+            temporary vessels for stored motion. Imprinted items retain
+            directional force, rotational energy, inertia, or explosive kinetic
+            discharge.
+        </p>
+
+        <p>
+            Applications range from combat projectiles to infrastructure
+            reinforcement, construction, traversal, climbing assistance,
+            transportation, rescue operations, and labor.
+        </p>
+
+        <h3>Limitations</h3>
+
+        <ul>
+
+            <li>Requires direct contact.</li>
+            <li>Objects possess finite durability.</li>
+            <li>Cannot stockpile multiple charges.</li>
+            <li>Cannot directly imprint living bodies.</li>
+
+        </ul>
+
+    </div>
+
+    <!-- DERIVED ENERGIES -->
+
+    <div class="section">
+
+        <h2>Derived Energies</h2>
+
+        <ul>
+
+            <li>Potential Energy Storage</li>
+            <li>Radiant Energy Emission</li>
+            <li>Sound & Vibration Manipulation (Training)</li>
+            <li>Magnetic Interaction Effects</li>
+            <li>Kinetic Constructs</li>
+
+        </ul>
+
+        <p>
+            Through advanced manipulation of motion, Ephraim can convert
+            kinetic energy into secondary phenomena such as stored tension,
+            visible light, vibration control, localized magnetic effects,
+            and temporary kinetic structures.
+        </p>
+
+    </div>
+
+    <!-- COMBAT -->
+
+    <div class="section">
+
+        <h2>Combat Style</h2>
+
+        <p>
+            Close Quarters Combat.
+        </p>
+
+        <p>
+            Ephraim specializes in overwhelming force application, momentum
+            control, pressure management, and kinetic redirection. His fighting
+            style appears deceptively relaxed until explosive bursts of motion
+            are unleashed.
+        </p>
+
+    </div>
+
+    <!-- HISTORY -->
+
+    <div class="section">
+
+        <h2>Background</h2>
+
+        <p>
+            Information pending archival submission.
+        </p>
+
+    </div>
+
+    <!-- CONNECTIONS -->
+
+    <div class="section">
+
+        <h2>Known Connections</h2>
+
+        <table>
+
+            <tr>
+                <td><strong>Juno Olympia</strong></td>
+                <td>Ex-Wife</td>
+            </tr>
+
+            <tr>
+                <td><strong>Amber Moon</strong></td>
+                <td>Girlfriend</td>
+            </tr>
+
+            <tr>
+                <td><strong>Sophia Sertho</strong></td>
+                <td>Daughter</td>
+            </tr>
+
+            <tr>
+                <td><strong>Django Drak'yo</strong></td>
+                <td>"Johnny"</td>
+            </tr>
+
+            <tr>
+                <td><strong>Isla</strong></td>
+                <td>Associate</td>
+            </tr>
+
+            <tr>
+                <td><strong>Sigfrid</strong></td>
+                <td>Mentor</td>
+            </tr>
+
+            <tr>
+                <td><strong>Penny</strong></td>
+                <td>Companion</td>
+            </tr>
+
+            <tr>
+                <td><strong>Henry</strong></td>
+                <td>"Ikarus"</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</section>
+<!-- FLYNN-->
+<section id="Flynn" class="article">
+
+    <div class="article-title">Flynn Decra</div>
+
+    <div class="subtitle">
+        Classified Courier / Displacer Entity File
+    </div>
+
+    <!-- INFOBOX -->
+    <div class="infobox">
+
+        <div class="infobox-header">
+            Character Data
+        </div>
+
+        <div class="infobox-image">
+             <img src="https://uploads.onecompiler.io/44qukkttr/44qrpv4pn/Flynn.png"
+         style="width:100%; height:100%; object-fit:contain;">
+            
         </div>
 
         <table>
@@ -1297,6 +5017,70 @@ function toggleTheme(){
 
 }
 
+function searchArticle(){
+
+    let input =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    let articles =
+        document.querySelectorAll(".article");
+
+    let found = false;
+
+    articles.forEach(article=>{
+
+        let titleElement =
+            article.querySelector(".article-title");
+
+        let title =
+            titleElement
+            ? titleElement.innerText.toLowerCase()
+            : "";
+
+        let id =
+            article.id.toLowerCase();
+
+        if(title.includes(input) || id.includes(input)){
+
+            showArticle(article.id);
+            found = true;
+        }
+
+    });
+
+    if(!found){
+        alert("No matching article found.");
+    }
+
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1309,3 +5093,9 @@ function toggleTheme(){
 </html>
 </body>
 </html>
+
+
+
+
+
+
