@@ -257,10 +257,44 @@ footer{
         <strong>F.O.R.N.I.X</strong>
     </div>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search F.O.R.N.I.X">
-        <button onclick="searchArticle()">Search</button>
+    <div class="search-container" style="display:flex; gap:10px; align-items:center;">
+
+    <!-- INPUT WRAPPER (glow applies ONLY here) -->
+    <div style="
+        flex:1.5;
+        padding:0.8px;
+        border:1px solid #39414d;
+        border-radius:8px;
+        background:#0d1117;
+        transition:0.2s;
+    "
+    onfocusin="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+    onfocusout="this.style.borderColor='#39414d';this.style.boxShadow='none'"
+    >
+
+        <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search F.O.R.N.I.X"
+            style="
+                width:100%;
+                background:transparent;
+                border:none;
+                outline:none;
+                color:#e6edf3;
+                font-family:inherit;
+            "
+        >
+
     </div>
+
+    <!-- BUTTON (UNCHANGED) -->
+    <button onclick="searchArticle()">
+        Search
+    </button>
+
+</div>
+    
 
 </div>
 
@@ -520,6 +554,386 @@ footer{
 
 <!----TEST---------------------->
 
+<section id="SubmitCharacter" class="article">
+
+<style>
+
+.character-form-container{
+    max-width:1000px;
+    margin:auto;
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.character-form-header{
+    padding:40px;
+    background:linear-gradient(
+        180deg,
+        #1b1f27,
+        #161b22
+    );
+    border-bottom:1px solid #30363d;
+}
+
+.character-form-header h1{
+    font-size:42px;
+    color:white;
+    margin-bottom:10px;
+}
+
+.character-form-header p{
+    color:#8b949e;
+    line-height:1.7;
+}
+
+.character-form{
+    padding:35px;
+}
+
+.form-section{
+    margin-bottom:40px;
+}
+
+.form-section h2{
+    color:#b267eb;
+    margin-bottom:15px;
+    border-bottom:1px solid #30363d;
+    padding-bottom:10px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    margin-bottom:6px;
+    color:#c9d1d9;
+    font-size:14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    background:#0d1117;
+    border:1px solid #30363d;
+    color:white;
+    padding:12px;
+    border-radius:6px;
+    font-family:inherit;
+}
+
+.form-group textarea{
+    resize:vertical;
+    min-height:150px;
+}
+
+.full-width{
+    grid-column:1 / -1;
+}
+
+.character-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.character-table td{
+    border:1px solid #30363d;
+    padding:12px;
+}
+
+.character-table td:first-child{
+    width:220px;
+    color:#b267eb;
+    font-weight:bold;
+}
+
+.file-upload{
+    border:2px dashed #b267eb;
+    padding:30px;
+    text-align:center;
+    border-radius:8px;
+    background:#0d1117;
+}
+
+.submit-btn{
+    width:100%;
+    padding:18px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    background:#b267eb;
+    color:white;
+    cursor:pointer;
+    transition:0.25s;
+}
+
+.submit-btn:hover{
+    background:#8c4fc0;
+}
+
+@media(max-width:900px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+<div class="character-form-container">
+
+<div class="character-form-header">
+    <h1>Character Archive Submission</h1>
+    <p>
+        Submit a new entry to the F.O.R.N.I.X Character Database.
+        All submissions are reviewed before archival acceptance.
+    </p>
+</div>
+
+<form
+class="character-form"
+action="https://formspree.io/f/3014289402705739623"
+method="POST"
+enctype="multipart/form-data"
+>
+
+<!-- BASIC INFORMATION -->
+
+<div class="form-section">
+
+<h2>Character Information</h2>
+
+<table class="character-table">
+
+<tr>
+<td>Name</td>
+<td><input type="text" name="Name" required
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Age</td>
+<td><input type="text" name="Age"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Sex</td>
+<td><input type="text" name="Sex"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Gender</td>
+<td><input type="text" name="Gender"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Sexuality</td>
+<td><input type="text" name="Sexuality"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Birthday</td>
+<td><input type="text" name="Birthday"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Species</td>
+<td><input type="text" name="Species"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Height</td>
+<td><input type="text" name="Height"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Weight</td>
+<td><input type="text" name="Weight"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Occupation</td>
+<td><input type="text" name="Occupation"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+<tr>
+<td>Affiliation</td>
+<td><input type="text" name="Affiliation"
+style="width:100%;box-sizing:border-box;background:#1a212b;border:1px solid #39414d;color:#e6edf3;padding:10px 12px;border-radius:6px;font-family:inherit;outline:none;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"></td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- APPEARANCE -->
+
+<div class="form-section">
+
+<h2>Appearance</h2>
+
+<div class="form-group">
+<textarea
+name="Appearance"
+placeholder="Describe physical appearance, clothing, markings, scars, eye color, etc."
+style="width:100%;box-sizing:border-box;border:1px solid #39414d;color:#e6edf3;padding:12px;border-radius:6px;font-family:inherit;outline:none;resize:vertical;min-height:150px;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"
+></textarea>
+</div>
+
+</div>
+
+<!-- ABILITIES -->
+
+<div class="form-section">
+
+<h2>Abilities</h2>
+
+<div class="form-group">
+<textarea
+name="Abilities"
+placeholder="List abilities, powers, passive traits, magical systems, skills, etc."
+style="width:100%;box-sizing:border-box;border:1px solid #39414d;color:#e6edf3;padding:12px;border-radius:6px;font-family:inherit;outline:none;resize:vertical;min-height:150px;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"
+  ></textarea>
+</div>
+
+</div>
+
+<!-- BACKGROUND -->
+
+<div class="form-section">
+
+<h2>Background</h2>
+
+<div class="form-group">
+<textarea
+name="Background"
+placeholder="History, origins, notable events, family, relationships..."
+style="width:100%;box-sizing:border-box;border:1px solid #39414d;color:#e6edf3;padding:12px;border-radius:6px;font-family:inherit;outline:none;resize:vertical;min-height:150px;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"
+  ></textarea>
+</div>
+
+</div>
+
+<!-- PERSONALITY -->
+
+<div class="form-section">
+
+<h2>Personality</h2>
+
+<div class="form-group">
+<textarea
+name="Personality"
+placeholder="Describe personality traits, motivations, fears, goals..."
+style="width:100%;box-sizing:border-box;border:1px solid #39414d;color:#e6edf3;padding:12px;border-radius:6px;font-family:inherit;outline:none;resize:vertical;min-height:150px;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"
+  ></textarea>
+</div>
+
+</div>
+
+<!-- TRIVIA -->
+
+<div class="form-section">
+
+<h2>Trivia & Notes</h2>
+
+<div class="form-group">
+<textarea
+name="Trivia"
+placeholder="Additional information, facts, lore, fun details..."
+style="width:100%;box-sizing:border-box;border:1px solid #39414d;color:#e6edf3;padding:12px;border-radius:6px;font-family:inherit;outline:none;resize:vertical;min-height:150px;"
+onfocus="this.style.borderColor='#b267eb';this.style.boxShadow='0 0 0 3px rgba(178,103,235,0.15)'"
+onblur="this.style.borderColor='#39414d';this.style.boxShadow='none'"
+  ></textarea>
+</div>
+
+</div>
+
+<!-- IMAGE -->
+
+<div class="form-section">
+
+<h2>Character Image</h2>
+
+<div class="file-upload">
+
+<p style="margin-bottom:15px;color:#8b949e;">
+Upload Character Artwork
+</p>
+
+<input
+type="file"
+name="CharacterImage"
+accept="image/*"
+>
+
+</div>
+
+</div>
+
+<!-- SUBMIT -->
+
+<button class="submit-btn" type="submit">
+Submit Character Entry
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+
+
+<!----TEST---------------------->
 
 <section id="Core" class="article">
 
